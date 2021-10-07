@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import { SvgXml } from "react-native-svg";
 
 import star from "../../../../assets/star";
+import open from "../../../../assets/open";
 
 const RestaurantCard = styled(Card)`
   background-color: ${(props) => props.theme.colors.bg.primary};
@@ -27,9 +28,22 @@ const Info = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
 const Star = styled.View`
-  padding: ${(props) => props.theme.space[3]};
+  display: flex;
+  justify-content: space-between
+  flex-direction: row;
+  padding: 5px;
+`;
+const StarR = styled.View`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+`;
+const OpenNow = styled.View`
+  display: flex;
+`;
+const Closed = styled.Text`
+  display: flex;
+  padding-left: 10px;
 `;
 
 export const RestaurantInfoCard = ({ restaurant = {} }) => {
@@ -42,7 +56,7 @@ export const RestaurantInfoCard = ({ restaurant = {} }) => {
     address = "Some random street",
     isOpenNow = true,
     rating = 5,
-    isClosedTemporaly,
+    isClosedTemporaly = false,
   } = restaurant;
   const ratingArray = Array.from(new Array(Math.ceil(rating)));
   return (
@@ -51,9 +65,19 @@ export const RestaurantInfoCard = ({ restaurant = {} }) => {
       <Info>
         <Title>{name}</Title>
         <Star key={rating}>
-          {ratingArray.map(() => (
-            <SvgXml xml={star} width={25} height={25} />
-          ))}
+          <StarR>
+            {ratingArray.map(() => (
+              <SvgXml xml={star} width={25} height={25} />
+            ))}
+            {isClosedTemporaly === true ? (
+              <Closed>CLOSED TEMPORALY</Closed>
+            ) : null}
+          </StarR>
+          <OpenNow>
+            {isOpenNow === true ? (
+              <SvgXml xml={open} width={30} height={30} />
+            ) : null}
+          </OpenNow>
         </Star>
         <Address>{address}</Address>
       </Info>
